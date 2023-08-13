@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+option csharp_namespace = "TaskService";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+package task;
+
+service Task{
+	//create
+	rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse) {
+		option (google.api.http) = {
+			post: "/v1/task",
+			body: "*"
+		};
+	}
+
+	//read
+	rpc ReadTask(ReadTaskRequest) returns (ReadTaskResponse) {
+		option (google.api.http) = {
+			get: "/v1/task/{id}"
+		};
+	}
+
+	//read all
+	rpc ReadAllTask(ReadAllTaskRequest) returns (ReadAllTaskResponse) {
+		option (google.api.http) = {
+			get: "/v1/task"
+		};
+	}
+
+	//update
+	rpc UpdateTask(UpdateTaskRequest) returns (UpdateTaskResponse) {
+		option (google.api.http) = {
+			put: "/v1/task",
+			body: "*"
+		};
+	}
+
+	//delete
+	rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse) {
+		option (google.api.http) = {
+			delete: "/v1/task/{id}"
+		};
+	}
+}
+
+message CreateTaskRequest{
+	string name = 1;
+	string description = 2;
+	int32 priority = 3;
+}
+message CreateTaskResponse{
+	int32 id = 1;
+}
+
+
+message ReadTaskRequest{
+	int32 id = 1;
+}
+message ReadTaskResponse{
+	int32 id = 1;
+	string name = 2;
+	string description = 3;
+	int32 priority = 4;
+	google.protobuf.StringValue status = 5;
+}
+
+message ReadAllTaskRequest{}
+
+message ReadAllTaskResponse {
+	repeated ReadTaskResponse task = 1;
+}
+
+message UpdateTaskRequest{
+	int32 id = 1;
+	string name = 2;
+	string description = 3;
+	int32 priority = 4;
+	google.protobuf.StringValue status = 5;
+}
+message UpdateTaskResponse{
+	int32 id = 1;
+}
+
+message DeleteTaskRequest{
+	int32 id = 1;
+}
+message DeleteTaskResponse{
+	int32 id = 1;
+}
